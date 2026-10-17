@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d19">
+
+  <title>Dashboard | SocialPlug</title>
+
+  <style>
+    :root {
+      --bg: #100d19;
+      --surface: #191524;
+      --surface2: #211b30;
+      --purple: #a78bfa;
+      --yellow: #f6d365;
+      --text: #f8f6ff;
+      --muted: #a9a2bb;
+      --border: #332a46;
+      --green: #76e0a5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brand span {
+      color: var(--purple);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .button-primary {
+      border-color: transparent;
+      background: var(--yellow);
+      color: #21172a;
+    }
+
+    main {
+      padding: 38px 0 60px;
+    }
+
+    .welcome {
+      margin-bottom: 28px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 39px);
+      letter-spacing: -1.2px;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .profile-card {
+      margin-bottom: 24px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background:
+        radial-gradient(
+          circle at 90% 10%,
+          rgba(167, 139, 250, 0.14),
+          transparent 40%
+        ),
+        var(--surface);
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--purple), var(--yellow));
+      color: #171020;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .profile-info {
+      min-width: 0;
+    }
+
+    .profile-info h2 {
+      margin: 0 0 6px;
+      font-size: 19px;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 9px;
+      border: 1px solid rgba(118, 224, 165, 0.25);
+      border-radius: 8px;
+      background: rgba(118, 224, 165, 0.08);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .section-title {
+      margin: 30px 0 15px;
+      font-size: 21px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .card-icon {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      border-radius: 13px;
+      background: var(--surface2);
+      color: var(--yellow);
+      font-size: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 9px;
+      font-size: 16px;
+    }
+
+    .card p {
+      min-height: 44px;
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .card .button {
+      width: 100%;
+    }
+
+    .notice {
+      margin-top: 25px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface2);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .notice strong {
+      color: var(--yellow);
+    }
+
+    .message {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    footer {
+      padding: 22px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card p {
+        min-height: 0;
+      }
+
+      .profile-card {
+        padding: 19px;
+      }
+
+      .nav {
+        min-height: 65px;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .button {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/">Social<span>Plug</span></a>
+
+      <div class="nav-actions">
+        <a class="button" href="/">Marketplace</a>
+        <button class="button button-primary" id="logoutButton">
+          Log Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h1>Your dashboard</h1>
+      <p>
+        Manage your SocialPlug account and explore available marketplace features.
+      </p>
+    </section>
+
+    <div id="pageMessage" class="message">
+      Checking your account...
+    </div>
+
+    <section class="profile-card" id="profileCard" hidden>
+      <div class="profile-top">
+        <div class="avatar" id="avatar">S</div>
+
+        <div class="profile-info">
+          <h2 id="userEmail">Loading...</h2>
+          <p id="userId"></p>
+          <span class="status">Authenticated account</span>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="section-title">Your workspace</h2>
+
+    <section class="grid">
+
+      <article class="card">
+        <div class="card-icon">⌕</div>
+        <h3>Explore marketplace</h3>
+        <p>
+          Browse demonstration listings and explore digital products and services.
+        </p>
+        <a class="button button-primary" href="/#marketplace">
+          Browse listings
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">◇</div>
+        <h3>Seller workspace</h3>
+        <p>
+          Seller registration and listing submission are not available yet.
+        </p>
+        <button class="button" id="sellerButton">
+          Coming soon
+        </button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">⚙</div>
+        <h3>Account settings</h3>
+        <p>
+          Password recovery and sign-in are handled by Supabase authentication.
+        </p>
+        <a class="button" href="/reset-password.html">
+          Reset password
+        </a>
+      </article>
+
+    </section>
+
+    <div class="notice">
+      <strong>Marketplace notice</strong><br>
+      Seller listings, purchases, payments, and transactions have not been
+      implemented. Only lawful products and services that are permitted
+      by the relevant platforms may be listed. Never share your password
+      or verification codes with another user.
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> SocialPlug.
+      <a href="/terms.html">Terms</a> ·
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase.js"></script>
+
+  <script>
+    const pageMessage = document.getElementById("pageMessage");
+    const profileCard = document.getElementById("profileCard");
+    const logoutButton = document.getElementById("logoutButton");
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    async function initializeDashboard() {
+      try {
+        if (typeof socialPlugSupabase === "undefined") {
+          throw new Error("Supabase is not configured.");
+        }
+
+        const { data, error } =
+          await socialPlugSupabase.auth.getUser();
+
+        if (error || !data.user) {
+          window.location.replace("/login.html");
+          return;
+        }
+
+        const user = data.user;
+
+        document.getElementById("userEmail").textContent =
+          user.email || "SocialPlug member";
+
+        document.getElementById("userId").textContent =
+          "Account ID: " + user.id;
+
+        document.getElementById("avatar").textContent =
+          (user.email || "S").charAt(0).toUpperCase();
+
+        profileCard.hidden = false;
+        pageMessage.hidden = true;
+      } catch (error) {
+        pageMessage.textContent =
+          "Unable to load your account. Check your connection and try again.";
+
+        console.error("Dashboard error:", error.message);
+      }
+    }
+
+    logoutButton.addEventListener("click", async () => {
+      logoutButton.disabled = true;
+      logoutButton.textContent = "Signing out...";
+
+      try {
+        const { error } =
+          await socialPlugSupabase.auth.signOut();
+
+        if (error) throw error;
+
+        window.location.replace("/");
+      } catch (error) {
+        alert("Unable to log out. Please try again.");
+
+        logoutButton.disabled = false;
+        logoutButton.textContent = "Log Out";
+      }
+    });
+
+    document.getElementById("sellerButton").addEventListener("click", () => {
+      alert("Seller registration is coming soon.");
+    });
+
+    initializeDashboard();
+  </script>
+
+</body>
+</html>
