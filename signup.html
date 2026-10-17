@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d1c">
+
+  <title>Create Account | SocialPlug</title>
+
+  <style>
+    :root {
+      --background: #100d1c;
+      --card: #1b172b;
+      --purple: #8b5cf6;
+      --yellow: #facc15;
+      --text: #ffffff;
+      --muted: #aaa5bd;
+      --border: #332c49;
+      --success: #4ade80;
+      --danger: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .brand {
+      display: block;
+      margin-bottom: 28px;
+      color: var(--text);
+      text-align: center;
+      text-decoration: none;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+    }
+
+    .brand span {
+      color: var(--yellow);
+    }
+
+    .card {
+      padding: 30px 24px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--card);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      letter-spacing: -0.7px;
+    }
+
+    .subtitle {
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: #120f20;
+      color: white;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    .password-help {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .terms input {
+      margin-top: 3px;
+      accent-color: var(--purple);
+    }
+
+    .terms a,
+    .footer a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    button {
+      width: 100%;
+      min-height: 50px;
+      padding: 13px;
+      border: none;
+      border-radius: 11px;
+      background: var(--yellow);
+      color: #17120a;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      display: block;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      background: rgba(74, 222, 128, 0.08);
+      color: var(--success);
+    }
+
+    .message.error {
+      display: block;
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      background: rgba(251, 113, 133, 0.08);
+      color: var(--danger);
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .back-home {
+      display: block;
+      margin-top: 20px;
+      color: var(--muted);
+      text-align: center;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    @media (max-width: 380px) {
+      .card {
+        padding: 25px 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <a class="brand" href="/">Social<span>Plug</span></a>
+
+    <section class="card">
+      <h1>Create your account</h1>
+
+      <p class="subtitle">
+        Join SocialPlug to explore permitted digital products
+        and services.
+      </p>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a strong password"
+            autocomplete="new-password"
+            minlength="10"
+            required
+          >
+          <p class="password-help">
+            Use at least 10 characters. Avoid passwords you use on other sites.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Enter your password again"
+            autocomplete="new-password"
+            minlength="10"
+            required
+          >
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" id="acceptTerms" required>
+          <span>
+            I agree to the <a href="/terms.html">Terms of Service</a>
+            and <a href="/privacy.html">Privacy Policy</a>.
+            I will only list products or services that I am authorized
+            to provide and that comply with applicable platform rules.
+          </span>
+        </label>
+
+        <button id="signupButton" type="submit">
+          Create Account
+        </button>
+      </form>
+
+      <p class="footer">
+        Already have an account?
+        <a href="/login.html">Log in</a>
+      </p>
+    </section>
+
+    <a class="back-home" href="/">← Back to SocialPlug</a>
+  </main>
+
+  <!-- Supabase JavaScript library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Your Supabase configuration -->
+  <script src="/supabase.js"></script>
+
+  <script>
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("signupButton");
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "message " + type;
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      if (password.length < 10) {
+        showMessage(
+          "Your password must contain at least 10 characters.",
+          "error"
+        );
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage("Your passwords do not match.", "error");
+        return;
+      }
+
+      if (!document.getElementById("acceptTerms").checked) {
+        showMessage("Please accept the Terms of Service.", "error");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Creating account...";
+
+      try {
+        if (
+          typeof socialPlugSupabase === "undefined" ||
+          typeof registerUser !== "function"
+        ) {
+          throw new Error(
+            "The Supabase connection is unavailable. Check supabase.js and your project credentials."
+          );
+        }
+
+        const result = await registerUser(email, password);
+
+        if (result.user && !result.user.identities?.length) {
+          showMessage(
+            "This email may already be registered. Try logging in or use another email.",
+            "error"
+          );
+          return;
+        }
+
+        if (result.user && !result.session) {
+          showMessage(
+            "Account created. Check your email for a verification link before logging in.",
+            "success"
+          );
+        } else if (result.user && result.session) {
+          showMessage(
+            "Account created successfully. You can now log in.",
+            "success"
+          );
+        } else {
+          showMessage(
+            "Please check your email for the next steps.",
+            "success"
+          );
+        }
+
+        form.reset();
+
+      } catch (error) {
+        showMessage(
+          error.message || "Registration failed. Please try again.",
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Create Account";
+      }
+    });
+  </script>
+</body>
+</html>
