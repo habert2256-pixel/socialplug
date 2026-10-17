@@ -1422,7 +1422,92 @@
     renderListings();
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/supabase.js"></script>
-  </script>
+  <script>
+(async function initializeNavigation() {
+  const navActions = document.getElementById("navActions");
 
+  if (!navActions || typeof socialPlugSupabase === "undefined") {
+    console.error("SocialPlug authentication is not configured.");
+    return;
+  }
+
+  const menuButton = navActions.querySelector("#menuToggle");
+
+  function renderNavigation(isLoggedIn) {
+    navActions.innerHTML = `
+      ${
+        isLoggedIn
+          ? `
+            <a class="button button-secondary" href="/dashboard.html">
+              Dashboard
+            </a>
+            <button class="button button-primary" id="logoutButton" type="button">
+              Log Out
+            </button>
+          `
+          : `
+            <a class="button button-secondary" href="/login.html">
+              Sign in
+            </a>
+            <a class="button button-primary" href="/signup.html">
+              Join SocialPlug
+            </a>
+          `
+      }
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >☰</button>
+    `;
+
+    const toggle = document.getElementById("menuToggle");
+
+    toggle.addEventListener("click", () => {
+      const navLinks = document.getElementById("navLinks");
+      const open = navLinks.classList.toggle("open");
+
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "×" : "☰";
+    });
+
+    const logoutButton = document.getElementById("logoutButton");
+
+    if (logoutButton) {
+      logoutButton.addEventListener("click", async () => {
+        logoutButton.disabled = true;
+        logoutButton.textContent = "Signing out...";
+
+        const { error } = await socialPlugSupabase.auth.signOut();
+
+        if (error) {
+          alert("Unable to log out. Please try again.");
+          logoutButton.disabled = false;
+          logoutButton.textContent = "Log Out";
+          return;
+        }
+
+        window.location.href = "/";
+      });
+    }
+  }
+
+  try {
+    const { data, error } =
+      await socialPlugSupabase.auth.getSession();
+
+    if (error) throw error;
+
+    renderNavigation(Boolean(data.session));
+
+    socialPlugSupabase.auth.onAuthStateChange((_event, session) => {
+      renderNavigation(Boolean(session));
+    });
+  } catch (error) {
+    console.error("Unable to check login status:", error.message);
+  }
+})();
+</script>
 </body>
 </html>
