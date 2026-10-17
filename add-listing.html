@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6c4cff">
+
+  <title>Create Listing | SocialPlug</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #f7f7fb;
+      color: #171725;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 25px auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+      color: #6c4cff;
+      text-decoration: none;
+    }
+
+    .back {
+      color: #6c4cff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e8e7f0;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(20, 20, 50, 0.04);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 27px;
+    }
+
+    .subtitle {
+      color: #77778a;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #dedee9;
+      border-radius: 10px;
+      background: white;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #6c4cff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .hint {
+      color: #77778a;
+      font-size: 12px;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 11px;
+      background: #6c4cff;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 9px;
+      display: none;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    #message.success {
+      display: block;
+      background: #e9fff0;
+      color: #146c35;
+    }
+
+    #message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a32323;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="topbar">
+      <a class="brand" href="/">SocialPlug</a>
+      <a class="back" href="/dashboard.html">Dashboard</a>
+    </div>
+
+    <section class="card">
+      <h1>Create a listing</h1>
+
+      <p class="subtitle">
+        Publish a digital service or permitted digital product
+        for customers to discover.
+      </p>
+
+      <form id="listingForm">
+        <label for="title">Listing title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          minlength="3"
+          maxlength="100"
+          placeholder="e.g. Professional video editing"
+          required
+        >
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="">Choose a category</option>
+          <option value="Graphic Design">Graphic Design</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="Social Media Management">Social Media Management</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Writing">Writing</option>
+          <option value="Digital Products">Digital Products</option>
+          <option value="Other Services">Other Services</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          minlength="10"
+          maxlength="2000"
+          placeholder="Describe what you offer, what customers receive, and your delivery time."
+          required
+        ></textarea>
+
+        <label for="price">Price (NGN)</label>
+        <input
+          id="price"
+          name="price"
+          type="number"
+          min="0"
+          max="9999999999"
+          step="0.01"
+          placeholder="e.g. 15000"
+          required
+        >
+
+        <label for="image_url">Image URL (optional)</label>
+        <input
+          id="image_url"
+          name="image_url"
+          type="url"
+          maxlength="2000"
+          placeholder="https://example.com/image.jpg"
+        >
+
+        <p class="hint">
+          Use an image URL that you own or have permission to use.
+          Direct image uploads can be added separately.
+        </p>
+
+        <button id="submitButton" type="submit">
+          Publish Listing
+        </button>
+
+        <div id="message" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase.js"></script>
+
+  <script>
+    const form = document.getElementById("listingForm");
+    const submitButton = document.getElementById("submitButton");
+    const message = document.getElementById("message");
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = type;
+    }
+
+    async function checkLogin() {
+      if (!window.socialPlugSupabase) {
+        showMessage(
+          "Supabase could not initialize. Check supabase.js and reload.",
+          "error"
+        );
+        submitButton.disabled = true;
+        return false;
+      }
+
+      const { data, error } =
+        await window.socialPlugSupabase.auth.getUser();
+
+      if (error || !data.user) {
+        window.location.href = "/login.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Publishing...";
+
+      try {
+        const { data: authData, error: authError } =
+          await window.socialPlugSupabase.auth.getUser();
+
+        if (authError || !authData.user) {
+          showMessage(
+            "Your session has expired. Please log in again.",
+            "error"
+          );
+          window.location.href = "/login.html";
+          return;
+        }
+
+        const title =
+          document.getElementById("title").value.trim();
+
+        const category =
+          document.getElementById("category").value;
+
+        const description =
+          document.getElementById("description").value.trim();
+
+        const price = Number(
+          document.getElementById("price").value
+        );
+
+        const imageInput =
+          document.getElementById("image_url").value.trim();
+
+        if (
+          title.length < 3 ||
+          description.length < 10 ||
+          !category ||
+          !Number.isFinite(price) ||
+          price < 0
+        ) {
+          showMessage(
+            "Please check the title, category, description, and price.",
+            "error"
+          );
+          return;
+        }
+
+        let imageUrl = null;
+
+        if (imageInput) {
+          const parsedUrl = new URL(imageInput);
+
+          if (parsedUrl.protocol !== "https:") {
+            showMessage(
+              "Please use a valid HTTPS image URL.",
+              "error"
+            );
+            return;
+          }
+
+          imageUrl = parsedUrl.href;
+        }
+
+        const listing = {
+          seller_id: authData.user.id,
+          title,
+          category,
+          description,
+          price,
+          image_url: imageUrl,
+          status: "active"
+        };
+
+        const { data, error } =
+          await window.socialPlugSupabase
+            .from("listings")
+            .insert(listing)
+            .select("id")
+            .single();
+
+        if (error) {
+          throw error;
+        }
+
+        form.reset();
+
+        showMessage(
+          "Listing published successfully! Listing ID: " + data.id,
+          "success"
+        );
+
+      } catch (error) {
+        console.error("Listing creation failed:", error);
+
+        showMessage(
+          "Could not publish listing: " +
+          (error.message || "Please try again."),
+          "error"
+        );
+
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Publish Listing";
+      }
+    });
+
+    checkLogin();
+  </script>
+</body>
+</html>
