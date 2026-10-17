@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100d1c">
+
+  <title>Login | SocialPlug</title>
+
+  <style>
+    :root {
+      --background: #100d1c;
+      --card: #1b172b;
+      --purple: #8b5cf6;
+      --yellow: #facc15;
+      --text: #ffffff;
+      --muted: #aaa5bd;
+      --border: #332c49;
+      --success: #4ade80;
+      --danger: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .brand {
+      display: block;
+      margin-bottom: 28px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+    }
+
+    .brand span {
+      color: var(--yellow);
+    }
+
+    .card {
+      padding: 30px 24px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--card);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      letter-spacing: -0.7px;
+    }
+
+    .subtitle {
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 19px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: #120f20;
+      color: white;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    .forgot {
+      display: block;
+      margin-top: 10px;
+      color: var(--yellow);
+      text-align: right;
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    button {
+      width: 100%;
+      min-height: 50px;
+      padding: 13px;
+      border: none;
+      border-radius: 11px;
+      background: var(--yellow);
+      color: #17120a;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      display: block;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      background: rgba(74, 222, 128, 0.08);
+      color: var(--success);
+    }
+
+    .message.error {
+      display: block;
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      background: rgba(251, 113, 133, 0.08);
+      color: var(--danger);
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .footer a,
+    .back-home {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    .back-home {
+      display: block;
+      margin-top: 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 380px) {
+      .card {
+        padding: 25px 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <a class="brand" href="/">Social<span>Plug</span></a>
+
+    <section class="card">
+      <h1>Welcome back</h1>
+
+      <p class="subtitle">
+        Log in to your SocialPlug account.
+      </p>
+
+      <div
+        id="message"
+        class="message"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email address</label>
+
+          <input
+            type="email"
+            id="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <input
+            type="password"
+            id="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+            required
+          >
+
+          <a class="forgot" href="/reset-password.html">
+            Forgot password?
+          </a>
+        </div>
+
+        <button id="loginButton" type="submit">
+          Log In
+        </button>
+      </form>
+
+      <p class="footer">
+        Don't have an account?
+        <a href="/signup.html">Create an account</a>
+      </p>
+    </section>
+
+    <a class="back-home" href="/">← Back to SocialPlug</a>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase.js"></script>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "message " + type;
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      button.disabled = true;
+      button.textContent = "Logging in...";
+
+      try {
+        if (typeof loginUser !== "function") {
+          throw new Error(
+            "Supabase is not configured correctly. Check supabase.js."
+          );
+        }
+
+        await loginUser(email, password);
+
+        showMessage("Login successful. Opening SocialPlug...", "success");
+
+        window.location.href = "/";
+
+      } catch (error) {
+        showMessage(
+          error.message ||
+          "Login failed. Check your details and try again.",
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Log In";
+      }
+    });
+  </script>
+</body>
+</html>
