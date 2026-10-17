@@ -2,8 +2,8 @@
 // SOCIALPLUG — SUPABASE CONNECTION
 // ==================================================
 
-const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+const SUPABASE_URL = "https://fotawphifxdyuopswwma.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_v2m5gUY203s_sH53M9kGlA_7YJeGzxt";
 
 // Initialize Supabase
 const socialPlugSupabase = window.supabase.createClient(
